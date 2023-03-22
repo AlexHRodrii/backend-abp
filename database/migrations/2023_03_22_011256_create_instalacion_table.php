@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+        Schema::create('instalacion', function (Blueprint $table) {
+            $table->bigIncrements('codigo_instalacion')->unique('codigo_instalacion');
+            $table->string('nombre_instalacion', 50);
+            $table->text('descripcion_instalacion');
+            $table->decimal('pvp_por_hora', 15);
+            $table->string('deporte_asociado', 30);
         });
     }
 
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('instalacion');
     }
 };
