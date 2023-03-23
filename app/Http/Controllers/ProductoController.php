@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
 {
@@ -19,15 +20,37 @@ class ProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Producto::all();
 
         $resultResponse = new ResultResponse();
+        try {
 
-        $resultResponse->setData($products);
-        $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
-        $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
+            $params = $request->all();
+
+            if (empty($params)) {
+                $products = Producto::all();
+            } else {
+                 $products = DB::table('producto')
+                    ->orWhereRaw("CONCAT(titulo, descripcion_producto, pvp, stock, categoria) LIKE '%{$params['any']}%'")
+                    ->get();
+            }//->orWhereRaw("CONCAT(titulo, descripcion_producto, pvp, stock, categoria) LIKE '%{$params['any']}%'")
+            /*$products = DB::table('producto')
+                    ->where('titulo', 'like', '%' . $params['titulo'] . '%')
+                    ->orWhere('descripcion_producto', 'like', '%' . $params['descripcionProducto'] . '%')
+                    ->orWhere('pvp', '=', $params['pvp'])
+                    ->orWhere('stock', '=', $params['stock'])
+                    ->orWhere('categoria', 'like', '%' . $params['categoria'] . '%')
+                    ->get();*/
+
+            $resultResponse->setData($products);
+            $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
+
+        } catch (\Exception $e) {
+            $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_ERROR_CODE);
+        }
 
         return response()->json($resultResponse);
     }
@@ -47,7 +70,7 @@ class ProductoController extends Controller
         try {
             $newProduct = new Producto([
                 'titulo' => $request->get('titulo'),
-                'descripcion_producto' => $request->get('descripcion_producto'),
+                'descripcion_producto' => $request->get('descripcionProducto'),
                 'pvp' => $request->get('pvp'),
                 'stock' => $request->get('stock'),
                 'categoria' => $request->get('categoria')
@@ -56,8 +79,8 @@ class ProductoController extends Controller
             $newProduct->save();
 
             $resultResponse->setData($newProduct);
-            $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
-            $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
+            $resultResponse->setStatusCode(ResultResponse::CREATED_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_CREATED_CODE);
 
 
         } catch (\Exception $e) {
@@ -111,7 +134,7 @@ class ProductoController extends Controller
             $product = Producto::findOrFail($id);
 
             $product->titulo = $request->get('titulo');
-            $product->descripcion_producto = $request->get('descripcion_producto');
+            $product->descripcion_producto = $request->get('descripcionProducto');
             $product->pvp = $request->get('pvp');
             $product->stock = $request->get('stock');
             $product->categoria = $request->get('categoria');
@@ -146,7 +169,7 @@ class ProductoController extends Controller
             $product = Producto::findOrFail($id);
 
             $product->titulo = $request->get('titulo', $product->titulo);
-            $product->descripcion_producto = $request->get('descripcion_producto', $product->descripcion_producto);
+            $product->descripcion_producto = $request->get('descripcionProducto', $product->descripcion_producto);
             $product->pvp = $request->get('pvp', $product->pvp);
             $product->stock = $request->get('stock', $product->stock);
             $product->categoria = $request->get('categoria', $product->categoria);
@@ -182,8 +205,8 @@ class ProductoController extends Controller
             $product->delete();
 
             $resultResponse->setData($product);
-            $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
-            $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
+            $resultResponse->setStatusCode(ResultResponse::NO_CONTENT_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_NO_CONTENT_CODE);
 
         } catch (\Exception $e) {
             $resultResponse->setStatusCode(ResultResponse::ERROR_ELEMENT_NOT_FOUND_CODE);
