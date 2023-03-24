@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('pvp', 15);
             $table->integer('stock');
             $table->string('categoria', 30);
+            $table->timestamps();
         });
     }
 
