@@ -4,6 +4,7 @@ use App\Http\Controllers\UsuarioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\CursoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,3 +38,12 @@ Route::controller(UsuarioController::class)->prefix('usuarios')->group(function 
     Route::delete('/{dni}', 'destroy');
 });
 
+
+Route::controller(CursoController::class)->prefix('curso')->group(function () {
+    Route::get('/', 'index');
+    Route::post('/', 'store');
+    Route::get('/{id}', 'show');
+    Route::post('/{id}', 'update');
+    Route::put('/{id}', 'put');
+    Route::delete('/{id}', 'destroy');
+});
