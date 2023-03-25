@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->decimal('pvp_curso', 15);
+            $table->timestamps();
         });
     }
 
