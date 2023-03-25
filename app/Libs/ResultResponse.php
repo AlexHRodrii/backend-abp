@@ -7,23 +7,23 @@ class ResultResponse
     const SUCCESS_CODE = 200;
     const CREATED_CODE = 201;
     const NO_CONTENT_CODE = 204;
-    const ERROR_CODE = 400;
+    const ERROR_BAD_REQUEST = 400;
     const ERROR_ELEMENT_NOT_FOUND_CODE = 404;
     const INTERNAL_SERVER_ERROR_CODE = 500;
 
-    const TXT_CREATED_CODE = 'Recurso creado';
-    const TXT_NO_CONTENT_CODE = 'Recurso borrado';
-    const TXT_SUCCESS_CODE = 'Success';
-    const TXT_ERROR_CODE = 'Error';
-    const TXT_ERROR_ELEMENT_NOT_FOUND_CODE = 'Element not found';
-    const TXT_INTERNAL_SERVER_ERROR_CODE = 'Internal Server Error';
+    const TXT_CREATED_CODE = 'Recurso creado correctamente';
+    const TXT_NO_CONTENT_CODE = 'Recurso eliminado correctamente';
+    const TXT_SUCCESS_CODE = 'Petición realizada con éxito';
+    const TXT_BAD_REQUEST = 'La petición no sigue el formato correcto';
+    const TXT_ERROR_ELEMENT_NOT_FOUND_CODE = 'Elemento no encontrado';
+    const TXT_INTERNAL_SERVER_ERROR_CODE = 'Error interno';
 
     public $statusCode;
     public $message;
     public $data;
 
     function __construct() {
-        $this->statusCode = self::ERROR_CODE;
+        $this->statusCode = self::INTERNAL_SERVER_ERROR_CODE;
         $this->message = 'Error';
         $this->data = '';
     }

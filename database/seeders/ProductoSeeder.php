@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ProductoSeeder extends Seeder
 {
@@ -14,7 +15,7 @@ class ProductoSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('producto')->insert([
+        DB::table('producto')->insert([
                 [
                     'titulo' => 'Proteina WHEY',
                     'descripcion_producto' => 'Potente proteína de suero de leche en polvo ideal para después del entrenamiento.',
