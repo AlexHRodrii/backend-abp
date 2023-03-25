@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UsuarioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
@@ -20,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(ProductoController::class)->prefix('product')->group(function () {
+Route::controller(ProductoController::class)->prefix('productos')->group(function () {
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{id}', 'show');
@@ -28,6 +29,15 @@ Route::controller(ProductoController::class)->prefix('product')->group(function 
     Route::put('/{id}', 'put');
     Route::delete('/{id}', 'destroy');
 });
+
+Route::controller(UsuarioController::class)->prefix('usuarios')->group(function () {
+    Route::get('/', 'index');
+    Route::get('/{dni}', 'show');
+    Route::post('/', 'store');
+    Route::patch('/{dni}', 'update');
+    Route::delete('/{dni}', 'destroy');
+});
+
 
 Route::controller(CursoController::class)->prefix('curso')->group(function () {
     Route::get('/', 'index');
