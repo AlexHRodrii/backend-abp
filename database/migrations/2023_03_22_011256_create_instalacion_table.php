@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('descripcionInstalacion');
             $table->decimal('pvpHora', 15);
             $table->string('deporteAsociado', 30);
+            $table->timestamps();
         });
     }
 

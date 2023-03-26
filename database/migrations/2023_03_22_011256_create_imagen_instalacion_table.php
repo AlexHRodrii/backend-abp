@@ -17,6 +17,8 @@ return new class extends Migration
             $table->bigIncrements('codigoImagen')->unique('codigoImagen');
             $table->text('url');
             $table->unsignedBigInteger('referenciaInstalacion')->index('CAJ_INSTALACION');
+            $table->timestamps();
+
         });
     }
 
