@@ -26,33 +26,61 @@ class ProductoController extends Controller
         $resultResponse = new ResultResponse();
         try {
 
-            $params = $request->all();
+            // Obtener los parámetros de la consulta
+            $parametros = $request->query();
 
-            if (empty($params)) {
-                $products = Producto::all();
-            } else {
-                 $products = DB::table('producto')
-                    ->orWhereRaw("CONCAT(titulo, descripcion_producto, pvp, stock, categoria) LIKE '%{$params['any']}%'")
-                    ->get();
-            }//->orWhereRaw("CONCAT(titulo, descripcion_producto, pvp, stock, categoria) LIKE '%{$params['any']}%'")
-            /*$products = DB::table('producto')
-                    ->where('titulo', 'like', '%' . $params['titulo'] . '%')
-                    ->orWhere('descripcion_producto', 'like', '%' . $params['descripcionProducto'] . '%')
-                    ->orWhere('pvp', '=', $params['pvp'])
-                    ->orWhere('stock', '=', $params['stock'])
-                    ->orWhere('categoria', 'like', '%' . $params['categoria'] . '%')
-                    ->get();*/
+            // Inicializar la consulta
+            $query = $this->modelo->query();
 
-            $resultResponse->setData($products);
+            // Verificar si se ha proporcionado el parámetro 'any'
+            if (isset($parametros['any'])) {
+                // Obtener el valor del parámetro 'any'
+                $busqueda = $parametros['any'];
+
+                // Aplicar la función MATCH() de MySQL a la consulta
+                $query->whereRaw(
+                    "MATCH(codigoProducto, titulo, descripcionProducto, pvp, stock, categoria) AGAINST(? IN BOOLEAN MODE)",
+                    [$busqueda]
+                );
+
+                // Eliminar el parámetro 'any' de los parámetros de la consulta
+                unset($parametros['any']);
+            }
+
+            // Iterar sobre los demás parámetros de la consulta
+            foreach ($parametros as $columna => $valor) {
+                if ($columna !== 'itemsPerPage' && $columna !== 'page') {
+                    // Anidar cláusulas WHERE a la consulta que busquen en la columna los valores recibidos por parámetro
+                    $query->where(function ($query) use ($columna, $valor) {
+                        $query->where($columna, 'like', "%$valor%");
+                    });
+                }
+            }
+
+            // Aplicar la paginación
+            $perPage = $parametros['itemsPerPage'] ?? 5;
+            $page = $parametros['page'] ?? 1;
+
+            // Obtener los resultados de la consulta
+            $resultados = $query->paginate($perPage, ['*'], 'page', $page);
+
+            // Preparar los datos de la respuesta
+            $resultResponse->setData($resultados);
             $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
             $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
 
-        } catch (\Exception $e) {
-            $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
-            $resultResponse->setMessage(ResultResponse::TXT_ERROR_CODE);
-        }
 
-        return response()->json($resultResponse);
+            // Devolver los resultados como una respuesta en formato JSON
+            return response()->json($resultResponse);
+        } catch (\Exception $e) {
+
+            // Preparar los datos de la respuesta
+            $resultResponse->setStatusCode(ResultResponse::INTERNAL_SERVER_ERROR_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_INTERNAL_SERVER_ERROR_CODE);
+
+            // Devolver los resultados como una respuesta en formato JSON
+            return response()->json($resultResponse);
+        }
     }
 
     /**
@@ -70,7 +98,7 @@ class ProductoController extends Controller
         try {
             $newProduct = new Producto([
                 'titulo' => $request->get('titulo'),
-                'descripcion_producto' => $request->get('descripcionProducto'),
+                'descripcionProducto' => $request->get('descripcionProducto'),
                 'pvp' => $request->get('pvp'),
                 'stock' => $request->get('stock'),
                 'categoria' => $request->get('categoria')
@@ -84,8 +112,8 @@ class ProductoController extends Controller
 
 
         } catch (\Exception $e) {
-            $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
-            $resultResponse->setMessage(ResultResponse::TXT_ERROR_CODE);
+            $resultResponse->setStatusCode(ResultResponse::ERROR_BAD_REQUEST);
+            $resultResponse->setMessage(ResultResponse::TXT_BAD_REQUEST);
         }
 
         return response()->json($resultResponse);
@@ -134,7 +162,7 @@ class ProductoController extends Controller
             $product = Producto::findOrFail($id);
 
             $product->titulo = $request->get('titulo');
-            $product->descripcion_producto = $request->get('descripcionProducto');
+            $product->descripcionProducto = $request->get('descripcionProducto');
             $product->pvp = $request->get('pvp');
             $product->stock = $request->get('stock');
             $product->categoria = $request->get('categoria');
@@ -169,7 +197,7 @@ class ProductoController extends Controller
             $product = Producto::findOrFail($id);
 
             $product->titulo = $request->get('titulo', $product->titulo);
-            $product->descripcion_producto = $request->get('descripcionProducto', $product->descripcion_producto);
+            $product->descripcionProducto = $request->get('descripcionProducto', $product->descripcionProducto);
             $product->pvp = $request->get('pvp', $product->pvp);
             $product->stock = $request->get('stock', $product->stock);
             $product->categoria = $request->get('categoria', $product->categoria);
@@ -223,8 +251,8 @@ class ProductoController extends Controller
 
         $rules['titulo'] = 'required|min:3|max:200';
         $messages['titulo.required'] = 'El título del producto es obligatorio';
-        $rules['descripcion_producto'] = 'required|max:500';
-        $messages['descripcion_producto.required'] = 'La descripción del producto es obligatoria';
+        $rules['descripcionProducto'] = 'required|max:500';
+        $messages['descripcionProducto.required'] = 'La descripción del producto es obligatoria';
         $rules['pvp'] = 'required';
         $messages['pvp.required'] = 'El precio del producto es obligatorio';
         $rules['stock'] = 'required|integer';
