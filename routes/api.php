@@ -21,10 +21,6 @@ use App\Http\Controllers\ImagenProductoController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::controller(ProductoController::class)->prefix('productos')->group(function () {
     Route::get('/', 'index');
     Route::post('/', 'store');
