@@ -37,9 +37,9 @@ class ImagenCursoController extends Controller
 
             // Validar los parámetros de la consulta
             $validator = Validator::make($parametros, [
-                'any' => 'required|string',
-                'referenciaCurso' => 'required|integer',
-                'url' => 'required|string',
+                'any' => 'sometimes|required|string',
+                'referenciaCurso' => 'sometimes|required|integer',
+                'url' => 'sometimes|required|string',
             ]);
 
             if ($validator->fails()) {
@@ -157,8 +157,8 @@ class ImagenCursoController extends Controller
         $resultResponse = new ResultResponse();
         try {
             $validator = Validator::make($request->all(), [
-                'referenciaCurso' => 'required|integer',
-                'url' => 'required|string',
+                'referenciaCurso' => 'sometimes|required|integer',
+                'url' => 'sometimes|required|string',
             ]);
 
             if ($validator->fails()) {
@@ -206,8 +206,8 @@ class ImagenCursoController extends Controller
         try {
 
             $validator = Validator::make($request->all(), [
-                'referenciaCurso' => 'required|integer',
-                'url' => 'required|string',
+                'referenciaCurso' => 'sometimes|required|integer',
+                'url' => 'sometimes|required|string',
             ]);
 
 
