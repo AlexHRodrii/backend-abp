@@ -29,8 +29,7 @@ Route::controller(ProductoController::class)->prefix('productos')->group(functio
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{id}', 'show');
-    Route::post('/{id}', 'update');
-    Route::put('/{id}', 'put');
+    Route::patch('/{id}', 'update');
     Route::delete('/{id}', 'destroy');
 });
 
@@ -55,8 +54,7 @@ Route::controller(CursoController::class)->prefix('cursos')->group(function () {
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{id}', 'show');
-    Route::post('/{id}', 'update');
-    Route::put('/{id}', 'put');
+    Route::patch('/{id}', 'update');
     Route::delete('/{id}', 'destroy');
 });
 
@@ -64,8 +62,7 @@ Route::controller(ImagenCursoController::class)->prefix('imagenCurso')->group(fu
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{id}', 'show');
-    Route::post('/{id}', 'update');
-    Route::put('/{id}', 'put');
+    Route::patch('/{id}', 'update');
     Route::delete('/{id}', 'destroy');
 });
 
@@ -73,8 +70,7 @@ Route::controller(ImagenInstalacionController::class)->prefix('imagenInstalacion
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{id}', 'show');
-    Route::post('/{id}', 'update');
-    Route::put('/{id}', 'put');
+    Route::patch('/{id}', 'update');
     Route::delete('/{id}', 'destroy');
 });
 
@@ -82,7 +78,6 @@ Route::controller(ImagenProductoController::class)->prefix('imagenProducto')->gr
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{id}', 'show');
-    Route::post('/{id}', 'update');
-    Route::put('/{id}', 'put');
+    Route::patch('/{id}', 'update');
     Route::delete('/{id}', 'destroy');
 });
