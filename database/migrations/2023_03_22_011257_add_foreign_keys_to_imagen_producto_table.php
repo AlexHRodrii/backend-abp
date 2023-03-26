@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('imagen_producto', function (Blueprint $table) {
-            $table->foreign(['referencia_producto'], 'CAJ_PRODUCTO')->references(['codigo_producto'])->on('producto')->onUpdate('CASCADE')->onDelete('CASCADE');
+        Schema::table('imagenProducto', function (Blueprint $table) {
+            $table->foreign(['referenciaProducto'], 'CAJ_PRODUCTO')->references(['codigoProducto'])->on('producto')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('imagen_producto', function (Blueprint $table) {
+        Schema::table('imagenProducto', function (Blueprint $table) {
             $table->dropForeign('CAJ_PRODUCTO');
         });
     }
