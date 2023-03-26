@@ -4,21 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use App\Libs\ResultResponse;
-use App\Http\Requests\StoreCursoRequest;
-use App\Http\Requests\UpdateCursoRequest;
-use App\Models\Usuario;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 
 class CursoController extends Controller
 {
+
+    protected Curso $modelo;
+
+    public function __construct(Curso $modelo)
+    {
+        $this->modelo = $modelo;
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index(Request $request)
     {
@@ -86,8 +89,8 @@ class CursoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -124,8 +127,8 @@ class CursoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Curso  $curso
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return JsonResponse
      */
     public function show($id)
     {
@@ -150,9 +153,9 @@ class CursoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Request  $request
+     * @param Request $request
      * @param  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -183,12 +186,12 @@ class CursoController extends Controller
         return response()->json($resultResponse);
     }
 
-     /**
+    /**
      * put the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Request  $request
+     * @param Request $request
      * @param  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function put(Request $request, $id)
     {
@@ -221,7 +224,7 @@ class CursoController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function destroy($id)
     {
@@ -249,12 +252,12 @@ class CursoController extends Controller
         $rules = [];
         $messages = [];
 
-         $newCurso = new Curso([
-                'nombreCurso' => $request->get('nombreCurso'),
-                'fechaInicio' => $request->get('fechaInicio'),
-                'fechaFin' => $request->get('fechaFin'),
-                'pvpCurso' => $request->get('pvpCurso')
-            ]);
+        $newCurso = new Curso([
+            'nombreCurso' => $request->get('nombreCurso'),
+            'fechaInicio' => $request->get('fechaInicio'),
+            'fechaFin' => $request->get('fechaFin'),
+            'pvpCurso' => $request->get('pvpCurso')
+        ]);
 
         $rules['nombreCurso'] = 'required|min:3|max:200';
         $messages['nombreCurso.required'] = 'El nombre del curso es obligatorio';

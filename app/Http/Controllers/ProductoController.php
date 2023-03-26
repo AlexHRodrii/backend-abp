@@ -4,21 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use App\Libs\ResultResponse;
-use App\Http\Requests\StoreProductoRequest;
-use App\Http\Requests\UpdateProductoRequest;
-use App\Models\Usuario;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 
 class ProductoController extends Controller
 {
+    protected Producto $modelo;
+
+    public function __construct(Producto $modelo)
+    {
+        $this->modelo = $modelo;
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index(Request $request)
     {
@@ -72,7 +76,7 @@ class ProductoController extends Controller
 
             // Devolver los resultados como una respuesta en formato JSON
             return response()->json($resultResponse);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
 
             // Preparar los datos de la respuesta
             $resultResponse->setStatusCode(ResultResponse::INTERNAL_SERVER_ERROR_CODE);
@@ -86,8 +90,8 @@ class ProductoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -111,7 +115,7 @@ class ProductoController extends Controller
             $resultResponse->setMessage(ResultResponse::TXT_CREATED_CODE);
 
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $resultResponse->setStatusCode(ResultResponse::ERROR_BAD_REQUEST);
             $resultResponse->setMessage(ResultResponse::TXT_BAD_REQUEST);
         }
@@ -122,8 +126,8 @@ class ProductoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Producto  $producto
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return JsonResponse
      */
     public function show($id)
     {
@@ -137,7 +141,7 @@ class ProductoController extends Controller
             $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
 
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $resultResponse->setStatusCode(ResultResponse::ERROR_ELEMENT_NOT_FOUND_CODE);
             $resultResponse->setMessage(ResultResponse::TXT_ERROR_ELEMENT_NOT_FOUND_CODE);
         }
@@ -148,9 +152,9 @@ class ProductoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Request  $request
+     * @param Request $request
      * @param  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -174,7 +178,7 @@ class ProductoController extends Controller
             $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
 
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $resultResponse->setStatusCode(ResultResponse::ERROR_ELEMENT_NOT_FOUND_CODE);
             $resultResponse->setMessage(ResultResponse::TXT_ERROR_ELEMENT_NOT_FOUND_CODE);
         }
@@ -185,9 +189,9 @@ class ProductoController extends Controller
     /**
      * put the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Request  $request
+     * @param Request $request
      * @param  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function put(Request $request, $id)
     {
@@ -209,7 +213,7 @@ class ProductoController extends Controller
             $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
 
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $resultResponse->setStatusCode(ResultResponse::ERROR_ELEMENT_NOT_FOUND_CODE);
             $resultResponse->setMessage(ResultResponse::TXT_ERROR_ELEMENT_NOT_FOUND_CODE);
         }
@@ -221,7 +225,7 @@ class ProductoController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function destroy($id)
     {
@@ -236,7 +240,7 @@ class ProductoController extends Controller
             $resultResponse->setStatusCode(ResultResponse::NO_CONTENT_CODE);
             $resultResponse->setMessage(ResultResponse::TXT_NO_CONTENT_CODE);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $resultResponse->setStatusCode(ResultResponse::ERROR_ELEMENT_NOT_FOUND_CODE);
             $resultResponse->setMessage(ResultResponse::TXT_ERROR_ELEMENT_NOT_FOUND_CODE);
         }
