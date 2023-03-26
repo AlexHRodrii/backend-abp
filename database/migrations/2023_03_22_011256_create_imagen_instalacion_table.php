@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('imagen_instalacion', function (Blueprint $table) {
-            $table->bigIncrements('codigo_imagen')->unique('codigo_imagen');
+        Schema::create('imagenInstalacion', function (Blueprint $table) {
+            $table->bigIncrements('codigoImagen')->unique('codigoImagen');
             $table->text('url');
-            $table->unsignedBigInteger('referencia_instalacion')->index('CAJ_INSTALACION');
+            $table->unsignedBigInteger('referenciaInstalacion')->index('CAJ_INSTALACION');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('imagen_instalacion');
+        Schema::dropIfExists('imagenInstalacion');
     }
 };

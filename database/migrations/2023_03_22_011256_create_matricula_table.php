@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('matricula', function (Blueprint $table) {
             $table->string('dni', 9);
-            $table->unsignedBigInteger('codigo_curso')->index('CAJ_MAT_CURSO');
+            $table->unsignedBigInteger('codigoCurso')->index('CAJ_MAT_CURSO');
 
-            $table->primary(['dni', 'codigo_curso']);
+            $table->primary(['dni', 'codigoCurso']);
         });
     }
 
