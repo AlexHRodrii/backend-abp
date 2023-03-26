@@ -37,9 +37,9 @@ class ImagenProductoController extends Controller
 
             // Validar los parámetros de la consulta
             $validator = Validator::make($parametros, [
-                'any' => 'sometimes|required|string',
-                'referenciaProducto' => 'sometimes|required|integer',
-                'url' => 'sometimes|required|string',
+                'any' => 'required|string',
+                'referenciaProducto' => 'required|integer',
+                'url' => 'required|string',
             ]);
 
             if ($validator->fails()) {
@@ -157,8 +157,8 @@ class ImagenProductoController extends Controller
         $resultResponse = new ResultResponse();
         try {
             $validator = Validator::make($request->all(), [
-                'referenciaProducto' => 'sometimes|required|integer',
-                'url' => 'sometimes|required|string',
+                'referenciaProducto' => 'required|integer',
+                'url' => 'required|string',
             ]);
 
             if ($validator->fails()) {
@@ -206,8 +206,8 @@ class ImagenProductoController extends Controller
         try {
 
             $validator = Validator::make($request->all(), [
-                'referenciaProducto' => 'sometimes|required|integer',
-                'url' => 'sometimes|required|string',
+                'referenciaProducto' => 'required|integer',
+                'url' => 'required|string',
             ]);
 
 
