@@ -61,8 +61,8 @@ class ImagenCursoController extends Controller
 
                 // Aplicar la función MATCH() de MySQL a la consulta
                 $query->whereRaw(
-                    "MATCH(referenciaCurso, url) AGAINST(? IN BOOLEAN MODE)",
-                    [$busqueda]
+                    "CONCAT_WS(referenciaCurso, url) LIKE ?",
+                    ["%$busqueda%"]
                 );
 
                 // Eliminar el parámetro 'any' de los parámetros de la consulta
