@@ -17,6 +17,8 @@ return new class extends Migration
             $table->bigIncrements('codigoImagen')->unique('codigoImagen');
             $table->text('url');
             $table->unsignedBigInteger('referenciaCurso')->index('CAJ_CURSO');
+            $table->timestamps();
+
         });
     }
 
