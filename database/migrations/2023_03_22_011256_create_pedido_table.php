@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('direccionEnvio');
             $table->date('fecha');
             $table->string('dni', 9)->index('CAJ_USUARIO');
+            $table->timestamps();
         });
     }
 
