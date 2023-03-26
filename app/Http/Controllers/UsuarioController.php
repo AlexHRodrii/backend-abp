@@ -46,7 +46,6 @@ class UsuarioController extends Controller
                 'fechaNacimiento' => 'sometimes|required|string',
                 'password' => 'sometimes|required|string',
                 'imagenPerfil' => 'sometimes|required|string',
-                // Agrega validaciones para otros parámetros aquí
             ]);
 
             if ($validator->fails()) {
@@ -68,7 +67,7 @@ class UsuarioController extends Controller
 
                 // Aplicar la función MATCH() de MySQL a la consulta
                 $query->whereRaw(
-                    "MATCH(columna1, columna2, columna3) AGAINST(? IN BOOLEAN MODE)",
+                    "MATCH(dni, email, telefono, nombre, apellidos, fechaNacimiento, password, imagenPerfil) AGAINST(? IN BOOLEAN MODE)",
                     [$busqueda]
                 );
 
