@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ImagenProducto extends Model
 {
     public $table = "imagenProducto";
-    protected $primaryKey = 'codigoProducto';
+    protected $primaryKey = 'codigoImagen';
     use HasFactory;
     protected $fillable = [
         'referenciaProducto',
