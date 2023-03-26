@@ -42,8 +42,8 @@ class CursoController extends Controller
 
                 // Aplicar la función MATCH() de MySQL a la consulta
                 $query->whereRaw(
-                    "MATCH(condigoCurso, nombreCurso, fechaInicio, fechaFin, pvpCurso) AGAINST(? IN BOOLEAN MODE)",
-                    [$busqueda]
+                    "CONCAT_WS(nombreCurso, fechaInicio, fechaFin, pvpCurso) LIKE ?",
+                    ["%$busqueda%"]
                 );
 
                 // Eliminar el parámetro 'any' de los parámetros de la consulta

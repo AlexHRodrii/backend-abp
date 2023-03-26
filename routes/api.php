@@ -51,7 +51,7 @@ Route::controller(InstalacionController::class)->prefix('instalaciones')->group(
 });
 
 
-Route::controller(CursoController::class)->prefix('curso')->group(function () {
+Route::controller(CursoController::class)->prefix('cursos')->group(function () {
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{id}', 'show');
