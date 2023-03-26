@@ -14,11 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('instalacion', function (Blueprint $table) {
-            $table->bigIncrements('codigo_instalacion')->unique('codigo_instalacion');
-            $table->string('nombre_instalacion', 50);
-            $table->text('descripcion_instalacion');
-            $table->decimal('pvp_por_hora', 15);
-            $table->string('deporte_asociado', 30);
+            $table->bigIncrements('codigoInstalacion')->unique('codigoInstalacion');
+            $table->string('nombreInstalacion', 50);
+            $table->text('descripcionInstalacion');
+            $table->decimal('pvpHora', 15);
+            $table->string('deporteAsociado', 30);
         });
     }
 

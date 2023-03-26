@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('reserva', function (Blueprint $table) {
-            $table->foreign(['codigo_instalacion'], 'CAJ_RES_INSTALACION')->references(['codigo_instalacion'])->on('instalacion')->onUpdate('CASCADE');
+            $table->foreign(['codigoInstalacion'], 'CAJ_RES_INSTALACION')->references(['codigoInstalacion'])->on('instalacion')->onUpdate('CASCADE');
             $table->foreign(['dni'], 'CAJ_RES_USUARIO')->references(['dni'])->on('usuario')->onUpdate('CASCADE');
         });
     }
