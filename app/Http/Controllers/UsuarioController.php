@@ -77,15 +77,17 @@ class UsuarioController extends Controller
 
             // Iterar sobre los demás parámetros de la consulta
             foreach ($parametros as $columna => $valor) {
-                // Anidar cláusulas WHERE a la consulta que busquen en la columna los valores recibidos por parámetro
-                $query->where(function ($query) use ($columna, $valor) {
-                    $query->where($columna, 'like', "%$valor%");
-                });
+                if ($columna !== 'itemsPerPage' && $columna !== 'page') {
+                    // Anidar cláusulas WHERE a la consulta que busquen en la columna los valores recibidos por parámetro
+                    $query->where(function ($query) use ($columna, $valor) {
+                        $query->where($columna, 'like', "%$valor%");
+                    });
+                }
             }
 
             // Aplicar la paginación
-            $perPage = $params['itemsPerPage'] ?? 5;
-            $page = $params['page'] ?? 1;
+            $perPage = $parametros['itemsPerPage'] ?? 5;
+            $page = $parametros['page'] ?? 1;
 
             // Obtener los resultados de la consulta
             $resultados = $query->paginate($perPage, ['*'], 'page', $page);
