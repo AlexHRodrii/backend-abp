@@ -158,10 +158,10 @@ class PedidoController extends Controller
         $resultResponse = new ResultResponse();
         try {
             $validator = Validator::make($request->all(), [
-                'pvpTotal' => 'sometimes|required|string',
-                'direccionEnvio' => 'sometimes|required|string|max:100',
-                'fecha' => 'sometimes|required|string',
-                'dni' => 'required|string|unique:usuario,dni|size:9',
+                'pvpTotal' => 'required|string',
+                'direccionEnvio' => 'required|string|max:100',
+                'fecha' => 'required|string',
+                'dni' => 'required|string|size:9',
             ]);
 
             if ($validator->fails()) {
@@ -214,7 +214,7 @@ class PedidoController extends Controller
                 'pvpTotal' => 'sometimes|required|string',
                 'direccionEnvio' => 'sometimes|required|string|max:100',
                 'fecha' => 'sometimes|required|string',
-                'dni' => 'required|string|unique:usuario,dni|size:9',
+                'dni' => 'required|string|size:9',
             ]);
 
 

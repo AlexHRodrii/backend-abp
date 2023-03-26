@@ -83,7 +83,6 @@ Route::controller(PedidoController::class)->prefix('pedido')->group(function () 
     Route::get('/', 'index');
     Route::post('/', 'store');
     Route::get('/{id}', 'show');
-    Route::post('/{id}', 'update');
-    Route::put('/{id}', 'put');
+    Route::patch('/{id}', 'update');
     Route::delete('/{id}', 'destroy');
 });
