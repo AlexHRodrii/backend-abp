@@ -5,15 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ImagenCurso extends Imagen
+class ImagenCurso extends Model
 {
     public $table = "imagenCurso";
+    protected $primaryKey = 'codigoCurso';
     use HasFactory;
-
-    public $referenciaCurso = 'referenciaCurso';
-    public function __construct($primaryKey, $url, $referenciaCurso)
-    {
-        parent::__construct($primaryKey, $url);
-        $this->referenciaCurso = $referenciaCurso;
-    }
+    protected $fillable = [
+        'referenciaCurso',
+        'url'
+    ];
 }
