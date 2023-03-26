@@ -43,8 +43,8 @@ class ProductoController extends Controller
 
                 // Aplicar la función MATCH() de MySQL a la consulta
                 $query->whereRaw(
-                    "MATCH(codigoProducto, titulo, descripcionProducto, pvp, stock, categoria) AGAINST(? IN BOOLEAN MODE)",
-                    [$busqueda]
+                    "CONCAT_WS(titulo, descripcionProducto, pvp, stock, categoria) LIKE ?",
+                    ["%$busqueda%"]
                 );
 
                 // Eliminar el parámetro 'any' de los parámetros de la consulta

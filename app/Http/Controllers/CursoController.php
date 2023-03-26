@@ -42,8 +42,8 @@ class CursoController extends Controller
 
                 // Aplicar la función MATCH() de MySQL a la consulta
                 $query->whereRaw(
-                    "MATCH(condigoCurso, nombreCurso, fechaInicio, fechaFin, pvpCurso) AGAINST(? IN BOOLEAN MODE)",
-                    [$busqueda]
+                    "CONCAT_WS(nombreCurso, fechaInicio, fechaFin, pvpCurso) LIKE ?",
+                    ["%$busqueda%"]
                 );
 
                 // Eliminar el parámetro 'any' de los parámetros de la consulta
@@ -117,8 +117,8 @@ class CursoController extends Controller
 
 
         } catch (\Exception $e) {
-            $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
-            $resultResponse->setMessage(ResultResponse::TXT_ERROR_CODE);
+            $resultResponse->setStatusCode(ResultResponse::INTERNAL_SERVER_ERROR_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_INTERNAL_SERVER_ERROR_CODE);
         }
 
         return response()->json($resultResponse);
@@ -150,41 +150,6 @@ class CursoController extends Controller
         return response()->json($resultResponse);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  $id
-     * @return JsonResponse
-     */
-    public function update(Request $request, $id)
-    {
-        $this->validateCurso($request);
-
-        $resultResponse = new ResultResponse();
-
-        try {
-            $curso = Curso::findOrFail($id);
-
-            $curso->nombreCurso = $request->get('nombreCurso');
-            $curso->fechaInicio = $request->get('fechaInicio');
-            $curso->fechaFin = $request->get('fechaFin');
-            $curso->pvpCurso = $request->get('pvpCurso');
-
-            $curso->save();
-
-            $resultResponse->setData($curso);
-            $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
-            $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
-
-
-        } catch (\Exception $e) {
-            $resultResponse->setStatusCode(ResultResponse::ERROR_ELEMENT_NOT_FOUND_CODE);
-            $resultResponse->setMessage(ResultResponse::TXT_ERROR_ELEMENT_NOT_FOUND_CODE);
-        }
-
-        return response()->json($resultResponse);
-    }
 
     /**
      * put the specified resource in storage.
@@ -193,7 +158,7 @@ class CursoController extends Controller
      * @param  $id
      * @return JsonResponse
      */
-    public function put(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $resultResponse = new ResultResponse();
 
