@@ -175,7 +175,7 @@ class InstalacionController extends Controller
                 return response()->json($resultResponse);
             }
 
-            $instalacion = new Producto();
+            $instalacion = new Instalacion();
             $instalacion->nombreInstalacion = $request->input('nombreInstalacion');
             $instalacion->descripcionInstalacion = $request->input('descripcionInstalacion');
             $instalacion->pvpHora = $request->input('pvpHora');

@@ -233,7 +233,7 @@ class UsuarioController extends Controller
         try {
 
             $validator = Validator::make($request->all(), [
-                'email' => ['sometimes', 'required', 'string', 'email', 'max:50', Rule::unique('usuario')->ignore($dni)],
+                'email' => ['sometimes', 'required', 'string', 'email', 'max:50'],
                 'telefono' => 'sometimes|required|string|max:12',
                 'nombre' => 'sometimes|required|string|max:15',
                 'apellidos' => 'sometimes|required|string|max:30',
