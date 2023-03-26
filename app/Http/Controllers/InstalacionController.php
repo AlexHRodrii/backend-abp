@@ -79,8 +79,12 @@ class InstalacionController extends Controller
                 });
             }
 
+            // Aplicar la paginación
+            $perPage = $params['itemsPerPage'] ?? 5;
+            $page = $params['page'] ?? 1;
+
             // Obtener los resultados de la consulta
-            $resultados = $query->get();
+            $resultados = $query->paginate($perPage, ['*'], 'page', $page);
 
             // Preparar los datos de la respuesta
             $resultResponse->setData($resultados);
