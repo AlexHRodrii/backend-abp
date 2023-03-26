@@ -210,7 +210,7 @@ class PedidoController extends Controller
         $messages['direccion_envio.required'] = 'La direccion del pedido es obligatoria';
         $rules['fecha'] = 'required';
         $messages['fecha.required'] = 'La fecha es obligatoria';
-        $rules['dni'] = 'required|/^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/i';
+        $rules['dni'] = 'required|regex:/^[0-9]{8}[A-Z]$/i';
         $messages['dni.required'] = 'El dni del usuario es obligatorio';
 
         return Validator::make($request->all(), $rules, $messages);
