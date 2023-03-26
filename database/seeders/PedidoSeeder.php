@@ -14,6 +14,26 @@ class PedidoSeeder extends Seeder
      */
     public function run()
     {
-        //
+        \DB::table('pedido')->insert([
+                [
+                    'pvpTotal' => 30,
+                    'direccionEnvio' => 'Calle San Agustín',
+                    'fecha' => '2023-05-01',
+                    'dni' => '12345678A',
+                ],
+                [
+                    'pvpTotal' => 70,
+                    'direccionEnvio' => 'Calle San Cristóbal',
+                    'fecha' => '2023-09-01',
+                    'dni' => '12345679B',
+                ],
+                [
+                    'pvpTotal' => 8,
+                    'direccionEnvio' => 'Calle Camino Real',
+                    'fecha' => '2023-12-01',
+                    'dni' => '45345679L',
+                ]
+            ]
+        );
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ImagenCursoController;
 use App\Http\Controllers\ImagenInstalacionController;
 use App\Http\Controllers\ImagenProductoController;
@@ -75,5 +76,14 @@ Route::controller(ImagenProductoController::class)->prefix('imagenProducto')->gr
     Route::post('/', 'store');
     Route::get('/{id}', 'show');
     Route::patch('/{id}', 'update');
+    Route::delete('/{id}', 'destroy');
+});
+
+Route::controller(PedidoController::class)->prefix('pedido')->group(function () {
+    Route::get('/', 'index');
+    Route::post('/', 'store');
+    Route::get('/{id}', 'show');
+    Route::post('/{id}', 'update');
+    Route::put('/{id}', 'put');
     Route::delete('/{id}', 'destroy');
 });

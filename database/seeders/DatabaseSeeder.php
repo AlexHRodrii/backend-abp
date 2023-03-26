@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             InstalacionSeeder::class,
             ImagenCursoSeeder::class,
             ImagenInstalacionSeeder::class,
-            ImagenProductoSeeder::class
+            ImagenProductoSeeder::class,
+            PedidoSeeder::class
         ]);
     }
 }
