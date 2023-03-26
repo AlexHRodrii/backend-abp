@@ -10,7 +10,7 @@ class ImagenInstalacion extends Imagen
     public $table = "imagenInstalacion";
     use HasFactory;
 
-    public $referenciaInstalacion = 'referencia_instalacion';
+    public $referenciaInstalacion = 'referenciaInstalacion';
     public function __construct($primaryKey, $url, $referenciaInstalacion)
     {
         parent::__construct($primaryKey, $url);
