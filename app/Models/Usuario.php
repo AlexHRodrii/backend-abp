@@ -8,10 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Usuario extends Model
 {
     public $table = "usuario";
-    protected $primaryKey = 'dni';
+    protected $primaryKey = "dni";
     use HasFactory;
     protected $fillable = [
-        'dni',
         'email',
         'telefono',
         'nombre',
