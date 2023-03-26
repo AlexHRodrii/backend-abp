@@ -95,6 +95,7 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
+        $resultResponse = new ResultResponse();
         $validator = $this->validateProduct($request);
 
         if ($validator->fails()) {
@@ -106,7 +107,6 @@ class ProductoController extends Controller
             return response()->json($resultResponse);
         }
 
-        $resultResponse = new ResultResponse();
 
         try {
             $newProduct = new Producto([
