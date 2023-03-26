@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('imagen_curso', function (Blueprint $table) {
-            $table->foreign(['referencia_curso'], 'CAJ_CURSO')->references(['codigo_curso'])->on('curso')->onUpdate('CASCADE')->onDelete('CASCADE');
+        Schema::table('imagenCurso', function (Blueprint $table) {
+            $table->foreign(['referenciaCurso'], 'CAJ_CURSO')->references(['codigoCurso'])->on('curso')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('imagen_curso', function (Blueprint $table) {
+        Schema::table('imagenCurso', function (Blueprint $table) {
             $table->dropForeign('CAJ_CURSO');
         });
     }

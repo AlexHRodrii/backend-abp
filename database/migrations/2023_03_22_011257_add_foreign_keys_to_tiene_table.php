@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('tiene', function (Blueprint $table) {
-            $table->foreign(['numero_pedido'], 'CAJ_TIENE_PEDIDO')->references(['numero_pedido'])->on('pedido')->onUpdate('CASCADE');
-            $table->foreign(['codigo_producto'], 'CAJ_TIENE_PRODUCTO')->references(['codigo_producto'])->on('producto')->onUpdate('CASCADE');
+            $table->foreign(['numeroPedido'], 'CAJ_TIENE_PEDIDO')->references(['numeroPedido'])->on('pedido')->onUpdate('CASCADE');
+            $table->foreign(['codigoProducto'], 'CAJ_TIENE_PRODUCTO')->references(['codigoProducto'])->on('producto')->onUpdate('CASCADE');
         });
     }
 

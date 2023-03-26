@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('pedido', function (Blueprint $table) {
-            $table->bigIncrements('numero_pedido')->unique('numero_pedido');
-            $table->decimal('pvp_total', 15);
-            $table->text('direccion_envio');
+            $table->bigIncrements('numeroPedido')->unique('numeroPedido');
+            $table->decimal('pvpTotal', 15);
+            $table->text('direccionEnvio');
             $table->date('fecha');
             $table->string('dni', 9)->index('CAJ_USUARIO');
         });

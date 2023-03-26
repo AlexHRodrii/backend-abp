@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('reserva', function (Blueprint $table) {
             $table->string('dni', 9);
-            $table->unsignedBigInteger('codigo_instalacion')->index('CAJ_RES_INSTALACION');
-            $table->time('hoa_inicio');
-            $table->time('hora_fin');
-            $table->date('fecha_reserva');
+            $table->unsignedBigInteger('codigoInstalacion')->index('CAJ_RES_INSTALACION');
+            $table->time('hoaInicio');
+            $table->time('horaFin');
+            $table->date('fechaReserva');
 
-            $table->primary(['dni', 'codigo_instalacion']);
+            $table->primary(['dni', 'codigoInstalacion']);
         });
     }
 

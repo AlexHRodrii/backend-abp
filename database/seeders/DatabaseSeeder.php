@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             ProductoSeeder::class,
             CursoSeeder::class,
             UsuarioSeeder::class,
-            InstalacionSeeder::class
+            InstalacionSeeder::class,
             UsuarioSeeder::class,
             ImagenCursoSeeder::class,
             ImagenInstalacionSeeder::class,
