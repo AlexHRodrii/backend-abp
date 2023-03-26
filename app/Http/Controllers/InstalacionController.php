@@ -63,8 +63,8 @@ class InstalacionController extends Controller
 
                 // Aplicar la función MATCH() de MySQL a la consulta
                 $query->whereRaw(
-                    "MATCH(codigoInstalacion, nombreInstalacion, descripcionInstalacion, pvpHora, deporteAsociado) AGAINST(? IN BOOLEAN MODE)",
-                    [$busqueda]
+                    "CONCAT_WS(nombreInstalacion, descripcionInstalacion, deporteAsociado) LIKE ?",
+                    ["%$busqueda%"]
                 );
 
                 // Eliminar el parámetro 'any' de los parámetros de la consulta

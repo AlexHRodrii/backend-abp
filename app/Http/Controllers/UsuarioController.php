@@ -65,10 +65,10 @@ class UsuarioController extends Controller
                 // Obtener el valor del parámetro 'any'
                 $busqueda = $parametros['any'];
 
-                // Aplicar la función MATCH() de MySQL a la consulta
+                // Aplicar la función CONCAT_WS() de MySQL a la consulta para buscar en el total de columnas
                 $query->whereRaw(
-                    "MATCH(dni, email, telefono, nombre, apellidos, fechaNacimiento, password, imagenPerfil) AGAINST(? IN BOOLEAN MODE)",
-                    [$busqueda]
+                    "CONCAT_WS(dni, email, telefono, nombre, apellidos, imagenPerfil) LIKE ?",
+                    ["%$busqueda%"]
                 );
 
                 // Eliminar el parámetro 'any' de los parámetros de la consulta
