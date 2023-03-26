@@ -7,5 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Instalacion extends Model
 {
+    public $table = "instalacion";
+    protected $primaryKey = 'codigoInstalacion';
     use HasFactory;
+    protected $fillable = [
+        'nombreInstalacion',
+        'descripcionInstalacion',
+        'pvpHora',
+        'deporteAsociado',
+    ];
 }

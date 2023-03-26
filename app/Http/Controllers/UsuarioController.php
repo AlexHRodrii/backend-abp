@@ -46,7 +46,6 @@ class UsuarioController extends Controller
                 'fechaNacimiento' => 'sometimes|required|string',
                 'password' => 'sometimes|required|string',
                 'imagenPerfil' => 'sometimes|required|string',
-                // Agrega validaciones para otros parámetros aquí
             ]);
 
             if ($validator->fails()) {
