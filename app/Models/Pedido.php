@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Pedido extends Model
 {
     public $table = "pedido";
-    protected $primaryKey = 'numero_pedido';
+    protected $primaryKey = 'numeroPedido';
     use HasFactory;
     protected $fillable = [
-        'pvp_total',
-        'direccion_envio',
+        'pvpTotal',
+        'direccionEnvio',
         'fecha',
         'dni'
     ];

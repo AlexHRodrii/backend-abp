@@ -16,20 +16,20 @@ class PedidoSeeder extends Seeder
     {
         \DB::table('pedido')->insert([
                 [
-                    'pvp_total' => 30,
-                    'direccion_envio' => 'Calle San Agustín',
+                    'pvpTotal' => 30,
+                    'direccionEnvio' => 'Calle San Agustín',
                     'fecha' => '2023-05-01',
                     'dni' => '12345678A',
                 ],
                 [
-                    'pvp_total' => 70,
-                    'direccion_envio' => 'Calle San Cristóbal',
+                    'pvpTotal' => 70,
+                    'direccionEnvio' => 'Calle San Cristóbal',
                     'fecha' => '2023-09-01',
                     'dni' => '12345679B',
                 ],
                 [
-                    'pvp_total' => 8,
-                    'direccion_envio' => 'Calle Camino Real',
+                    'pvpTotal' => 8,
+                    'direccionEnvio' => 'Calle Camino Real',
                     'fecha' => '2023-12-01',
                     'dni' => '45345679L',
                 ]
