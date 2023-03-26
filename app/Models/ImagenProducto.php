@@ -10,7 +10,7 @@ class ImagenProducto extends Imagen
     public $table = "imagenProducto";
     use HasFactory;
 
-    public $referenciaProducto = 'referencia_producto';
+    public $referenciaProducto = 'referenciaProducto';
     public function __construct($primaryKey, $url, $referenciaProducto)
     {
         parent::__construct($primaryKey, $url);

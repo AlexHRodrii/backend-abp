@@ -9,7 +9,7 @@ class Imagen extends Model
 {
     public $table = "Imagen";
 
-    public $primaryKey = 'codigo_imagen';
+    public $primaryKey = 'codigoImagen';
     public $url = 'url';
     public function __construct($primaryKey, $url){
         $this->primaryKey = $primaryKey;
