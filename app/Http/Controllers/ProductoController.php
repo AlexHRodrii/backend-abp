@@ -95,7 +95,16 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validateProduct($request);
+        $validator = $this->validateProduct($request);
+
+        if ($validator->fails()) {
+            // Preparar los datos de la respuesta
+            $resultResponse->setStatusCode(ResultResponse::ERROR_BAD_REQUEST);
+            $resultResponse->setMessage(ResultResponse::TXT_BAD_REQUEST);
+
+            // Devolver los resultados como una respuesta en formato JSON
+            return response()->json($resultResponse);
+        }
 
         $resultResponse = new ResultResponse();
 
@@ -158,8 +167,6 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validateProduct($request);
-
         $resultResponse = new ResultResponse();
 
         try {

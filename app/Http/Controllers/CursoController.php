@@ -94,10 +94,20 @@ class CursoController extends Controller
      */
     public function store(Request $request)
     {
-        // Se hace las validaciones
-        $this->validateCurso($request);
 
         $resultResponse = new ResultResponse();
+
+        // Se hace las validaciones
+        $validator = $this->validateCurso($request);
+
+        if ($validator->fails()) {
+            // Preparar los datos de la respuesta
+            $resultResponse->setStatusCode(ResultResponse::ERROR_BAD_REQUEST);
+            $resultResponse->setMessage(ResultResponse::TXT_BAD_REQUEST);
+
+            // Devolver los resultados como una respuesta en formato JSON
+            return response()->json($resultResponse);
+        }
 
         try {
             // Se crea el objeto curso
