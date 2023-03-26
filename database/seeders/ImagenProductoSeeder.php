@@ -17,15 +17,15 @@ class ImagenProductoSeeder extends Seeder
     {
         \DB::table('imagenProducto')->insert([
                 [
-                    'referenciaProducto' => 3234566,
+                    'referenciaProducto' => 1,
                     'url' => 'https://img.freepik.com/free-icon/avatar_318-158392.jpg',
                 ],
                 [
-                    'referenciaProducto' => 3234567,
+                    'referenciaProducto' => 3,
                     'url' => 'https://img.freepik.com/free-icon/avatar_318-158392.jpg',
                 ],
                 [
-                    'referenciaProducto' => 3234568,
+                    'referenciaProducto' => 1,
                     'url' => 'https://img.freepik.com/free-icon/avatar_318-158392.jpg',
                 ]
             ]

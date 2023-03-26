@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('fechaNacimiento');
             $table->text('password');
             $table->text('imagenPerfil')->nullable();
+            $table->timestamps();
         });
     }
 

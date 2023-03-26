@@ -17,15 +17,15 @@ class ImagenCursoSeeder extends Seeder
     {
         \DB::table('imagenCurso')->insert([
                 [
-                    'referenciaCurso' => 1234566,
+                    'referenciaCurso' => 1,
                     'url' => 'https://img.freepik.com/free-icon/avatar_318-158392.jpg',
                 ],
                 [
-                    'referenciaCurso' => 1234567,
+                    'referenciaCurso' => 2,
                     'url' => 'https://img.freepik.com/free-icon/avatar_318-158392.jpg',
                 ],
                 [
-                    'referenciaCurso' => 1234568,
+                    'referenciaCurso' => 2,
                     'url' => 'https://img.freepik.com/free-icon/avatar_318-158392.jpg',
                 ]
             ]

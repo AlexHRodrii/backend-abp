@@ -17,15 +17,15 @@ class ImagenInstalacionSeeder extends Seeder
     {
         \DB::table('imagenInstalacion')->insert([
                 [
-                    'referenciaInstalacion' => 2234566,
+                    'referenciaInstalacion' => 1,
                     'url' => 'https://img.freepik.com/free-icon/avatar_318-158392.jpg',
                 ],
                 [
-                    'referenciaInstalacion' => 2234567,
+                    'referenciaInstalacion' => 1,
                     'url' => 'https://img.freepik.com/free-icon/avatar_318-158392.jpg',
                 ],
                 [
-                    'referenciaInstalacion' => 2234568,
+                    'referenciaInstalacion' => 2,
                     'url' => 'https://img.freepik.com/free-icon/avatar_318-158392.jpg',
                 ]
             ]

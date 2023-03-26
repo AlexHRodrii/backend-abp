@@ -19,19 +19,19 @@ class PedidoSeeder extends Seeder
                     'pvpTotal' => 30,
                     'direccionEnvio' => 'Calle San Agustín',
                     'fecha' => '2023-05-01',
-                    'dni' => '12345678A',
+                    'dni' => '00000000A',
                 ],
                 [
                     'pvpTotal' => 70,
                     'direccionEnvio' => 'Calle San Cristóbal',
                     'fecha' => '2023-09-01',
-                    'dni' => '12345679B',
+                    'dni' => '00000000B',
                 ],
                 [
                     'pvpTotal' => 8,
                     'direccionEnvio' => 'Calle Camino Real',
                     'fecha' => '2023-12-01',
-                    'dni' => '45345679L',
+                    'dni' => '00000000A',
                 ]
             ]
         );
