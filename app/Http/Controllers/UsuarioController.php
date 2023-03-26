@@ -46,7 +46,6 @@ class UsuarioController extends Controller
                 'fechaNacimiento' => 'sometimes|required|string',
                 'password' => 'sometimes|required|string',
                 'imagenPerfil' => 'sometimes|required|string',
-                // Agrega validaciones para otros parámetros aquí
             ]);
 
             if ($validator->fails()) {
@@ -66,10 +65,10 @@ class UsuarioController extends Controller
                 // Obtener el valor del parámetro 'any'
                 $busqueda = $parametros['any'];
 
-                // Aplicar la función MATCH() de MySQL a la consulta
+                // Aplicar la función CONCAT_WS() de MySQL a la consulta para buscar en el total de columnas
                 $query->whereRaw(
-                    "MATCH(columna1, columna2, columna3) AGAINST(? IN BOOLEAN MODE)",
-                    [$busqueda]
+                    "CONCAT_WS(dni, email, telefono, nombre, apellidos, imagenPerfil) LIKE ?",
+                    ["%$busqueda%"]
                 );
 
                 // Eliminar el parámetro 'any' de los parámetros de la consulta
@@ -78,14 +77,20 @@ class UsuarioController extends Controller
 
             // Iterar sobre los demás parámetros de la consulta
             foreach ($parametros as $columna => $valor) {
-                // Anidar cláusulas WHERE a la consulta que busquen en la columna los valores recibidos por parámetro
-                $query->where(function ($query) use ($columna, $valor) {
-                    $query->where($columna, 'like', "%$valor%");
-                });
+                if ($columna !== 'itemsPerPage' && $columna !== 'page') {
+                    // Anidar cláusulas WHERE a la consulta que busquen en la columna los valores recibidos por parámetro
+                    $query->where(function ($query) use ($columna, $valor) {
+                        $query->where($columna, 'like', "%$valor%");
+                    });
+                }
             }
 
+            // Aplicar la paginación
+            $perPage = $parametros['itemsPerPage'] ?? 5;
+            $page = $parametros['page'] ?? 1;
+
             // Obtener los resultados de la consulta
-            $resultados = $query->get();
+            $resultados = $query->paginate($perPage, ['*'], 'page', $page);
 
             // Preparar los datos de la respuesta
             $resultResponse->setData($resultados);

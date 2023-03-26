@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tiene', function (Blueprint $table) {
-            $table->unsignedBigInteger('numero_pedido')->unique('numero_pedido');
-            $table->unsignedBigInteger('codigo_producto')->index('CAJ_TIENE_PRODUCTO');
+            $table->unsignedBigInteger('numeroPedido')->unique('numeroPedido');
+            $table->unsignedBigInteger('codigoProducto')->index('CAJ_TIENE_PRODUCTO');
 
-            $table->primary(['numero_pedido', 'codigo_producto']);
+            $table->primary(['numeroPedido', 'codigoProducto']);
         });
     }
 

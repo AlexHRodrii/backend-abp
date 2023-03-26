@@ -16,22 +16,22 @@ class CursoSeeder extends Seeder
     {
         \DB::table('curso')->insert([
                 [
-                    'nombre_curso' => 'Crossfit',
-                    'fecha_inicio' => '2023-03-22',
-                    'fecha_fin' => '2023-05-01',
-                    'pvp_curso' => 50,
+                    'nombreCurso' => 'Crossfit',
+                    'fechaInicio' => '2023-03-22',
+                    'fechaFin' => '2023-05-01',
+                    'pvpCurso' => 50,
                 ],
                 [
-                    'nombre_curso' => 'Clase de cardio',
-                    'fecha_inicio' => '2023-01-09',
-                    'fecha_fin' => '2023-12-22',
-                    'pvp_curso' => 300,
+                    'nombreCurso' => 'Clase de cardio',
+                    'fechaInicio' => '2023-01-09',
+                    'fechaFin' => '2023-12-22',
+                    'pvpCurso' => 300,
                 ],
                 [
-                    'nombre_curso' => 'Zumba',
-                    'fecha_inicio' => '2023-05-01',
-                    'fecha_fin' => '2023-09-01',
-                    'pvp_curso' => 150,
+                    'nombreCurso' => 'Zumba',
+                    'fechaInicio' => '2023-05-01',
+                    'fechaFin' => '2023-09-01',
+                    'pvpCurso' => 150,
                 ]
             ]
         );

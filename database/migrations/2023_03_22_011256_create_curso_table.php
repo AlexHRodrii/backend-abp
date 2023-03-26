@@ -14,11 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('curso', function (Blueprint $table) {
-            $table->bigIncrements('codigo_curso')->unique('codigo_curso');
-            $table->string('nombre_curso', 50);
-            $table->date('fecha_inicio');
-            $table->date('fecha_fin');
-            $table->decimal('pvp_curso', 15);
+            $table->bigIncrements('codigoCurso')->unique('codigoCurso');
+            $table->string('nombreCurso', 50);
+            $table->date('fechaInicio');
+            $table->date('fechaFin');
+            $table->decimal('pvpCurso', 15);
             $table->timestamps();
         });
     }

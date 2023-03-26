@@ -4,69 +4,111 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use App\Libs\ResultResponse;
-use App\Http\Requests\StoreCursoRequest;
-use App\Http\Requests\UpdateCursoRequest;
-use App\Models\Usuario;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 
 class CursoController extends Controller
 {
+
+    protected Curso $modelo;
+
+    public function __construct(Curso $modelo)
+    {
+        $this->modelo = $modelo;
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index(Request $request)
     {
+        // Crear el objeto de respuesta
         $resultResponse = new ResultResponse();
         try {
 
-            $params = $request->all();
+            // Obtener los parámetros de la consulta
+            $parametros = $request->query();
 
-            if (empty($params)) {
-                $cursos = Curso::all();
-            } else {
-                $cursos = DB::table('curso')
-                    ->orWhereRaw("CONCAT(nombre_curso, fecha_inicio, pvp_curso) LIKE '%{$params['any']}%'")
-                    ->get();
+            // Inicializar la consulta
+            $query = $this->modelo->query();
+
+            // Verificar si se ha proporcionado el parámetro 'any'
+            if (isset($parametros['any'])) {
+                // Obtener el valor del parámetro 'any'
+                $busqueda = $parametros['any'];
+
+                // Aplicar la función MATCH() de MySQL a la consulta
+                $query->whereRaw(
+                    "MATCH(condigoCurso, nombreCurso, fechaInicio, fechaFin, pvpCurso) AGAINST(? IN BOOLEAN MODE)",
+                    [$busqueda]
+                );
+
+                // Eliminar el parámetro 'any' de los parámetros de la consulta
+                unset($parametros['any']);
             }
 
-            $resultResponse->setData($cursos);
+            // Iterar sobre los demás parámetros de la consulta
+            foreach ($parametros as $columna => $valor) {
+                if ($columna !== 'itemsPerPage' && $columna !== 'page') {
+                    // Anidar cláusulas WHERE a la consulta que busquen en la columna los valores recibidos por parámetro
+                    $query->where(function ($query) use ($columna, $valor) {
+                        $query->where($columna, 'like', "%$valor%");
+                    });
+                }
+            }
+
+            // Aplicar la paginación
+            $perPage = $parametros['itemsPerPage'] ?? 5;
+            $page = $parametros['page'] ?? 1;
+
+            // Obtener los resultados de la consulta
+            $resultados = $query->paginate($perPage, ['*'], 'page', $page);
+
+            // Preparar los datos de la respuesta
+            $resultResponse->setData($resultados);
             $resultResponse->setStatusCode(ResultResponse::SUCCESS_CODE);
             $resultResponse->setMessage(ResultResponse::TXT_SUCCESS_CODE);
 
-        } catch (\Exception $e) {
-            $resultResponse->setStatusCode(ResultResponse::ERROR_CODE);
-            $resultResponse->setMessage(ResultResponse::TXT_ERROR_CODE);
-        }
 
-        return response()->json($resultResponse);
+            // Devolver los resultados como una respuesta en formato JSON
+            return response()->json($resultResponse);
+        } catch (\Exception $e) {
+
+            // Preparar los datos de la respuesta
+            $resultResponse->setStatusCode(ResultResponse::INTERNAL_SERVER_ERROR_CODE);
+            $resultResponse->setMessage(ResultResponse::TXT_INTERNAL_SERVER_ERROR_CODE);
+
+            // Devolver los resultados como una respuesta en formato JSON
+            return response()->json($resultResponse);
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
+        // Se hace las validaciones
         $this->validateCurso($request);
 
         $resultResponse = new ResultResponse();
 
         try {
+            // Se crea el objeto curso
             $newCurso = new Curso([
-                'nombre_curso' => $request->get('nombreCurso'),
-                'fecha_inicio' => $request->get('fechaInicio'),
-                'fecha_fin' => $request->get('fechaFin'),
-                'pvp_curso' => $request->get('pvpCurso')
+                'nombreCurso' => $request->get('nombreCurso'),
+                'fechaInicio' => $request->get('fechaInicio'),
+                'fechaFin' => $request->get('fechaFin'),
+                'pvpCurso' => $request->get('pvpCurso')
             ]);
 
+            // Se guarda en la base de datos
             $newCurso->save();
 
             $resultResponse->setData($newCurso);
@@ -85,8 +127,8 @@ class CursoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Curso  $curso
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return JsonResponse
      */
     public function show($id)
     {
@@ -111,9 +153,9 @@ class CursoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Request  $request
+     * @param Request $request
      * @param  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -124,10 +166,10 @@ class CursoController extends Controller
         try {
             $curso = Curso::findOrFail($id);
 
-            $curso->nombre_curso = $request->get('nombreCurso');
-            $curso->fecha_inicio = $request->get('fechaInicio');
-            $curso->fecha_fin = $request->get('fechaFin');
-            $curso->pvp_curso = $request->get('pvpCurso');
+            $curso->nombreCurso = $request->get('nombreCurso');
+            $curso->fechaInicio = $request->get('fechaInicio');
+            $curso->fechaFin = $request->get('fechaFin');
+            $curso->pvpCurso = $request->get('pvpCurso');
 
             $curso->save();
 
@@ -144,12 +186,12 @@ class CursoController extends Controller
         return response()->json($resultResponse);
     }
 
-     /**
+    /**
      * put the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Request  $request
+     * @param Request $request
      * @param  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function put(Request $request, $id)
     {
@@ -158,10 +200,10 @@ class CursoController extends Controller
         try {
             $curso = Curso::findOrFail($id);
 
-            $curso->nombre_curso = $request->get('nombreCurso', $curso->nombre_curso);
-            $curso->fecha_inicio = $request->get('fechaInicio', $curso->fecha_inicio);
-            $curso->fecha_fin = $request->get('fechaFin', $curso->fecha_fin);
-            $curso->pvp_curso = $request->get('pvpCurso', $curso->pvp_curso);
+            $curso->nombreCurso = $request->get('nombreCurso', $curso->nombreCurso);
+            $curso->fechaInicio = $request->get('fechaInicio', $curso->fechaInicio);
+            $curso->fechaFin = $request->get('fechaFin', $curso->fechaFin);
+            $curso->pvpCurso = $request->get('pvpCurso', $curso->pvpCurso);
 
             $curso->save();
 
@@ -182,7 +224,7 @@ class CursoController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function destroy($id)
     {
@@ -210,21 +252,21 @@ class CursoController extends Controller
         $rules = [];
         $messages = [];
 
-         $newCurso = new Curso([
-                'nombre_curso' => $request->get('nombreCurso'),
-                'fecha_inicio' => $request->get('fechaInicio'),
-                'fecha_fin' => $request->get('fechaFin'),
-                'pvp_curso' => $request->get('pvpCurso')
-            ]);
+        $newCurso = new Curso([
+            'nombreCurso' => $request->get('nombreCurso'),
+            'fechaInicio' => $request->get('fechaInicio'),
+            'fechaFin' => $request->get('fechaFin'),
+            'pvpCurso' => $request->get('pvpCurso')
+        ]);
 
-        $rules['nombre_curso'] = 'required|min:3|max:200';
-        $messages['nombre_curso.required'] = 'El nombre del curso es obligatorio';
-        $rules['fecha_inicio'] = 'required';
-        $messages['fecha_inicio.required'] = 'La fecha de inicio es obligatoria';
-        $rules['fecha_fin'] = 'required';
-        $messages['fecha_fin.required'] = 'La fecha de fin es obligatoria';
-        $rules['pvp_curso'] = 'required|integer';
-        $messages['pvp_curso.required'] = 'El precio del curso es obligatorio';
+        $rules['nombreCurso'] = 'required|min:3|max:200';
+        $messages['nombreCurso.required'] = 'El nombre del curso es obligatorio';
+        $rules['fechaInicio'] = 'required';
+        $messages['fechaInicio.required'] = 'La fecha de inicio es obligatoria';
+        $rules['fechaFin'] = 'required';
+        $messages['fechaFin.required'] = 'La fecha de fin es obligatoria';
+        $rules['pvpCurso'] = 'required|integer';
+        $messages['pvpCurso.required'] = 'El precio del curso es obligatorio';
 
         return Validator::make($request->all(), $rules, $messages);
 
